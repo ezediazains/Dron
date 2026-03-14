@@ -1,0 +1,7 @@
+../Core/Src/dronMotor.c:18:13:dronMotor_SetAllMotors	1
+../Core/Src/dronMotor.c:26:6:dronMotor_Init	1
+../Core/Src/dronMotor.c:34:6:dronMotor_StartArm	2
+../Core/Src/dronMotor.c:46:9:dronMotor_Update	7
+../Core/Src/dronMotor.c:73:6:dronMotor_Disarm	1
+../Core/Src/dronMotor.c:80:6:dronMotor_IsArmed	1
+../Core/Src/dronMotor.c:83:19:dronMotor_GetState	1
