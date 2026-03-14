@@ -23,29 +23,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "dronMotor.h"
 /* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-
-/* USER CODE END PM */
-
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE BEGIN PV */
-
-/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -55,8 +34,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-#define DEBOUNCE_TIME 50
-uint8_t button_pressed(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
+
 /* USER CODE END 0 */
 
 /**
@@ -65,88 +43,27 @@ uint8_t button_pressed(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin);
   */
 int main(void)
 {
-
-  /* USER CODE BEGIN 1 */
-
-  /* USER CODE END 1 */
-
-  /* MCU Configuration--------------------------------------------------------*/
-
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
-
-  /* USER CODE BEGIN Init */
-
-  /* USER CODE END Init */
 
   /* Configure the system clock */
   SystemClock_Config();
 
-  /* USER CODE BEGIN SysInit */
-
-  /* USER CODE END SysInit */
-
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM1_Init();
-  /* USER CODE BEGIN 2 */
+
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
-  HAL_GPIO_WritePin(LEDVe_GPIO_Port, LEDVe_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(LEDAm_GPIO_Port, LEDAm_Pin, GPIO_PIN_SET);
+  dronMotor_Init();
+  HAL_Delay(1000);
+  dronMotor_StartArm();
 
-  uint32_t duty_cycle = 2000;
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-  HAL_Delay(4000);
-  duty_cycle = 1000;
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-  HAL_Delay(4000);
-
-  for(duty_cycle = 1500;duty_cycle > 1000;duty_cycle-=50){
-	  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-	  HAL_GPIO_TogglePin(LEDAm_GPIO_Port, LEDAm_Pin);
-	  HAL_Delay(4000);
+  while (1)
+  {
+	  dronMotor_Update();
   }
-  //logramos un carajiano0o
 
-  while(1){
-  HAL_GPIO_TogglePin(LEDAm_GPIO_Port, LEDAm_Pin);
-  HAL_Delay(500);
-  }
-  /*HAL_GPIO_TogglePin(LEDAm_GPIO_Port, LEDAm_Pin);
-  duty_cycle = 1500;
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-  HAL_Delay(2000);
-
-  HAL_GPIO_TogglePin(LEDAm_GPIO_Port, LEDAm_Pin);
-  duty_cycle = 1900;
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-  HAL_Delay(2000);
-  duty_cycle = 1500;
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-  HAL_Delay(2000);
-
-  duty_cycle = 1050;
-  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-  HAL_Delay(2000);*/
-
-
-  while (1) {
-	  /*if(button_pressed(BOT_GPIO_Port, BOT_Pin)){
-		  if(cont==0)duty_cycle = 2000;
-		  if(cont > 0)duty_cycle+=100;
-		  __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, duty_cycle);
-		  cont++;
-	  }*/
-
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
 }
 
 /**
@@ -184,26 +101,6 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
-/* USER CODE BEGIN 4 */
-uint8_t button_pressed(GPIO_TypeDef *GPIOx, uint16_t GPIO_Pin) {
-    static uint32_t last_press_time = 0;
-    static uint8_t last_state = GPIO_PIN_SET;  // Estado inicial suponiendo pull-up
-
-    uint8_t current_state = HAL_GPIO_ReadPin(GPIOx, GPIO_Pin);  // Leer botón
-
-    if (current_state == GPIO_PIN_RESET && last_state == GPIO_PIN_SET) {  // Detecta flanco descendente
-        if ((HAL_GetTick() - last_press_time) >= DEBOUNCE_TIME) {  // Antirrebote
-            last_press_time = HAL_GetTick();  // Actualiza el tiempo de la pulsación
-            last_state = current_state;
-            return 1;  // Retorna 1 SOLO una vez cuando se presiona el botón
-        }
-    }
-
-    last_state = current_state;
-    return 0;  // No se detectó pulsación
-}
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.

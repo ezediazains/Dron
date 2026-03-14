@@ -23,7 +23,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  C:/Users/kudaz/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.7/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  C:/Users/kudaz/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.7/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
  C:/Users/kudaz/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.7/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
- ../Core/Inc/tim.h ../Core/Inc/main.h ../Core/Inc/gpio.h
+ ../Core/Inc/tim.h ../Core/Inc/main.h ../Core/Inc/gpio.h \
+ ../Core/Inc/dronMotor.h ../Core/Inc/tim.h
 ../Core/Inc/main.h:
 C:/Users/kudaz/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.7/Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:
@@ -52,3 +53,5 @@ C:/Users/kudaz/STM32Cube/Repository/STM32Cube_FW_F1_V1.8.7/Drivers/STM32F1xx_HAL
 ../Core/Inc/tim.h:
 ../Core/Inc/main.h:
 ../Core/Inc/gpio.h:
+../Core/Inc/dronMotor.h:
+../Core/Inc/tim.h:
