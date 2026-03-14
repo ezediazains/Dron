@@ -55,9 +55,8 @@ int main(void)
 
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
   HAL_GPIO_WritePin(LEDAm_GPIO_Port, LEDAm_Pin, GPIO_PIN_SET);
+
   dronMotor_Init();
-  HAL_Delay(1000);
-  dronMotor_StartArm();
 
   while (1)
   {
